@@ -25,3 +25,31 @@ body {
     text-wrap: balance;
   }
 }
+
+
+
+nav {
+  background: #f0f0f0; /* Change to your desired color */
+  padding: 1rem;
+}
+
+nav ul {
+  list-style-type: none;
+  display: flex;
+  gap: 2rem; /* Spacing between links */
+}
+
+nav a {
+  text-decoration: none;
+  color: #333; /* Change link color */
+}
+
+nav a:hover {
+  text-decoration: underline; /* Underline on hover */
+}
+
+nav a:active {
+  font-weight: bold; /* Make active link bold */
+  color: #0070f3; /* Change active link color */
+
+}

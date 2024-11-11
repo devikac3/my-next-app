@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import Link from "next/link";
+import { ChakraProvider, Flex, Divider, Box } from "@chakra-ui/react";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -20,15 +22,67 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
+  activePath, // Accept activePath as a prop
 }: Readonly<{
   children: React.ReactNode;
+  activePath: string; // Declare activePath as a string
 }>) {
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
+        style={{ display: "flex", flexDirection: "column", overflow: "hidden", height: "100vh", }}
+      > 
+
+      {/* Fixed Header */}
+      <nav style={{ position: "fixed", top: 0, width: "100%", zIndex: 1000, background: "#fff", padding: "10px 0", borderBottom: "1px solid #ddd" }}>
+      <ul style={{ display: "flex", justifyContent: "center", listStyle: "none", padding: 0, margin: 0 }}>
+        <li style={{ margin: "0 10px" }}>
+          <Link href="/" className={activePath === "/" ? "active" : ""}>Home</Link>
+        </li>
+        <li style={{ margin: "0 10px" }}>
+          <Link href="/about" className={activePath === "/about" ? "active" : ""}>About</Link>
+        </li>
+        <li style={{ margin: "0 10px" }}>
+          <Link href="/contact" className={activePath === "/contact" ? "active" : ""}>Users</Link>
+        </li>
+      </ul>
+      </nav>
+
+       {/* Main Content Area */}
+       <ChakraProvider>
+        <Box
+            as="main"
+            style={{
+              flex: "1",
+              paddingTop: "50px", // Add padding to avoid overlap with fixed header
+              paddingBottom: "60px", // Add padding to avoid overlap with fixed footer
+              overflowY: "auto", // Enable scrolling if content exceeds the viewport height
+              height: "calc(100vh - 110px)", // Ensure it fills the remaining space (header: 50px + footer: 60px)
+            }}
+          >
+            {children}
+          </Box>
+       </ChakraProvider>
+        
+        {/* Fixed Footer */}
+        <ChakraProvider>
+          <Flex
+            as="footer"
+            position="fixed"
+            bottom={0}
+            width="100%"
+            bg="gray.100"
+            p={3}
+            justifyContent="center"
+            borderTopWidth={1}
+            borderColor="gray.200"
+            zIndex={1000}
+          >
+            <Divider borderColor="gray.200" my={1} />
+            @Cloudmantra
+          </Flex>
+        </ChakraProvider>
       </body>
     </html>
   );
